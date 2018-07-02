@@ -1,0 +1,29 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Images/files/3DViewer.svg</file>
+        <file>Images/files/checked.svg</file>
+        <file>Images/files/Local.svg</file>
+        <file>Images/files/sdcard.svg</file>
+        <file>Images/files/usb.svg</file>
+        <file>Images/header/highlight_off.svg</file>
+        <file>Images/header/menu.svg</file>
+        <file>Images/header/pause_circle_filled.svg</file>
+        <file>Images/header/play_circle_filled.svg</file>
+        <file>Images/header/stop_circle.svg</file>
+        <file>Images/jog/down.svg</file>
+        <file>Images/jog/home.svg</file>
+        <file>Images/jog/left.svg</file>
+        <file>Images/jog/right.svg</file>
+        <file>Images/jog/up.svg</file>
+        <file>Images/lib/atcore.png</file>
+        <file>Images/lib/fan_128.png</file>
+        <file>Images/lib/fandisable_128.png</file>
+        <file>Images/menu/files.svg</file>
+        <file>Images/menu/graphs.svg</file>
+        <file>Images/menu/jog.svg</file>
+        <file>Images/menu/log.svg</file>
+        <file>Images/menu/print.svg</file>
+        <file>Images/menu/settings.svg</file>
+        <file>Images/menu/system.svg</file>
+    </qresource>
+</RCC>

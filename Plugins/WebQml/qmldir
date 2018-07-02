@@ -1,0 +1,5 @@
+module AtCore.WebQml
+classname QlServer
+classname QlFiles
+
+QlServer 1.0 QlServer.qml

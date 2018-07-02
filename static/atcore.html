@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta name="robots" content="noindex, nofollow, noimageindex">
+    <title>AtCore-BBK WebService</title>
+    <script lang="javascript">
+    var xhr = new XMLHttpRequest();
+    
+    function SendJob(methode,url, jsondata,callback){
+        xhr.open(methode, url,true);
+        if (jsondata!="") {
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.send(JSON.stringify(jsondata));
+        } else {
+            xhr.send();
+        }
+        xhr.onreadystatechange = function(){
+            if (xhr.readyState === 4){
+                if (xhr.status === 200){
+                    var resp = xhr.responseText;
+                    var respJson = JSON.parse(resp);
+                    callback(respJson);
+                } else {
+                    console.log("xhr failed");
+                };
+            }; 
+        };
+    };
+    
+    var fileselected = false;
+    var connected = false;
+    var print = false;
+    var pause = false;
+    var stop = false;
+    var error = false;
+    var complet = 10;
+    
+    function JobResponse(jsonrep){
+    try {
+        fileSelected=jsonrep.file.fileselected;
+        connected=jsonrep.state.connected;
+        print=jsonrep.state.print;
+        pause=jsonrep.state.pause;
+        resume=jsonrep.state.resume;
+        cancel=jsonrep.state.cancel;
+        error=jsonrep.state.error;
+        document.getElementById("state").textContent=jsonrep.state.state;
+        if (connected) {
+            document.getElementById("progress").value=jsonrep.progress.completion;
+            document.getElementById("textprogress").textContent=jsonrep.progress.completion.toString()+'%';
+            document.getElementById("estimatedTime").textContent=jsonrep.progress.estimatedTime;
+            document.getElementById("remainingTime").textContent=jsonrep.progress.remainingTime;
+            document.getElementById("finishTime").textContent=jsonrep.progress.finishTime;
+            document.getElementById("bed").textContent=jsonrep.temperatures.bed;
+            document.getElementById("bedtarget").textContent=jsonrep.temperatures.bedtarget;
+            document.getElementById("ext0").textContent=jsonrep.temperatures.e0;
+            document.getElementById("ext0target").textContent=jsonrep.temperatures.e0target;
+            document.getElementById("btnEmergency").disabled=false; 
+            document.getElementById("btnPrint").disabled=(print===false); 
+            document.getElementById("btnCancel").disabled=(cancel===false); 
+            var vPause = document.getElementById("btnPause");
+            vPause.disabled=(pause===false); 
+            if (resume===true) {
+              vPause.setAttribute("onClick","SendResume();");
+              vPause.textContent="Resume";
+              console.log("*** RESUME ****");
+            } else {
+              vPause.setAttribute("onClick","SendPause();");
+              vPause.textContent="Pause";
+            };
+        } else {
+            document.getElementById("btnEmergency").disabled=true; 
+            document.getElementById("btnPrint").disabled=true; 
+            document.getElementById("btnPause").disabled=true; 
+            document.getElementById("btnCancel").disabled=true; 
+        }; 
+        if (fileSelected) {
+            document.getElementById("fileName").textContent=jsonrep.file.name;
+            document.getElementById("fileSize").textContent=jsonrep.file.size;
+            document.getElementById("fileDate").textContent=jsonrep.file.date;
+            document.getElementById("fileName").title =jsonrep.file.origin;
+        }; 
+        } catch(e) {
+            alert(e);
+        }
+    };
+    
+    SendPrint = function() {
+        SendJob("POST","/api/job",{ "command" : "start"},JobResponse);
+    };
+
+    SendPause = function() {
+        SendJob("POST","/api/job",{ "command" : "pause","action" : "pause"},JobResponse);
+    };
+    
+    SendResume = function() {
+        SendJob("POST","/api/job", { "command" : "pause","action" : "resume"},JobResponse);
+    };
+    
+    SendCancel = function() {
+        SendJob("POST","/api/job",{ "command" : "cancel"},JobResponse);
+    };
+    
+    SendEmergency = function() {
+        SendJob("POST","/api/job", { "command" : "emergency"},JobResponse);
+    };
+
+    SendRefreshJob = function() {
+        SendJob("GET","/api/job", "",JobResponse);
+    };
+    
+    var intervalID = setInterval(SendRefreshJob, 5000);
+    
+    window.document.onload = function(e){ 
+    	console.log("document.onload", e, Date.now() ); 
+    	 SendJob("GET","/api/job", "",JobResponse);
+    };
+</script>
+<style>
+.btn {
+    display: btn;
+    width: 80%;
+    padding: 6px ;
+    font-size: 18px;
+    cursor: pointer;
+    text-align: center;
+}
+
+.btn:hover {
+    background-color: #ddd;
+    color: black;
+}
+</style>
+</head>
+<body onload="SendRefreshJob()">
+<table cellpadding="5" cellspacing="5" >
+	<tr>
+		<td colspan="1" align="right"><span title="Printer status">Status</span>: </td>
+		<td colspan="1" align="left"><strong id="state">Disconnected</strong></td>
+		<td colspan="2" align="right"><button class="btn" id="btnEmergency" onClick="SendEmergency();"  disabled>Emergency</button></td>
+	</tr>
+	<tr>
+		<td colspan="4" ><img src="http://kamikaze.local:8080/?action=stream&amp;1519244034224" alt="Video streaming" id="webcam_image"></td>
+        </tr>
+	<tr>
+		<td colspan="3" align="right"><progress id="progress" value="0" max="100"></progress></td>
+		<td colspan="1" ><strong id="textprogress">0%</strong></td>
+	</tr>
+	<tr>
+		<td align="right"><span title="Time estimated to print the file">Estimated</span>: </td>
+		<td><strong id="estimatedTime">-</strong></td>
+		<td align="right"><span title="Remaining time to finish the print">Remaining</span>: </td>
+		<td><strong id="remainingTime">-</strong></td>
+	</tr>
+	<tr>
+		<td colspan="1" align="right"><span title="Time when print was finish">Finish</span>: </td>
+		<td colspan="3"><strong id="finishTime">-</strong></td>
+	</tr>
+	<tr>
+		<td colspan="1" align="right"><span title="Name of file">File name </span>: </td>
+		<td colspan="3"><span style="font-weight: bold; " id="fileName" title="?">-</span></td>
+	</tr>
+	<tr>
+		<td align="right"><span title="Size of file in bytes">Size</span>: </td>
+		<td><strong id="fileSize">-</strong></td>
+		<td align="right"><span title="Date modification of file">Date</span>: </td>
+		<td><strong id="fileDate">-</strong></td>
+	</tr>
+        <tr>
+                <td><strong id="bed" align="right" title="Actual bed temperature">-</strong></td>
+                <td id="bedtarget" title="Target bed temperature">-</td>
+                <td><strong id="ext0" align="right" title="Actual extruder 0 temperature">-</strong></td>
+                <td id="ext0target" title="Target extruder 0 temperature" >-</td>
+        </tr>
+        <tr>
+		<td colspan="1"><button type="button" class="btn"  id="btnPrint" title="Print selected file, active when a file is selected" onclick="SendPrint();" disabled="">Print</button></td>
+		<td colspan="2" align="center"><button type="button" class="btn"  id="btnPause"  onClick="SendPause();"  disabled>Pause</button></td>
+		<td colspan="1" align="right"><button type="button" class="btn"  id="btnCancel" onclick="SendCancel();" disabled="">Cancel</button></td>
+	</tr>
+</table>
+</body>
+</html>

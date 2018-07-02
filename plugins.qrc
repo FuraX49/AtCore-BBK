@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Plugins/GCodeViewer/SceneRoot.qml</file>
+        <file>Plugins/GCodeViewer/SimpleMaterial.qml</file>
+        <file>Plugins/GCodeViewer/Viewer3D.qml</file>
+        <file>Plugins/WebQml/QlServer.qml</file>
+    </qresource>
+</RCC>

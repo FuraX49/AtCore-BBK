@@ -1,0 +1,23 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Components/BusyAnimation.qml</file>
+        <file>Components/ExtruderControl.qml</file>
+        <file>Components/FanControl.qml</file>
+        <file>Components/HeaderButton.qml</file>
+        <file>Components/HeaterControl.qml</file>
+        <file>Components/JobState.js</file>
+        <file>Components/JogButton.qml</file>
+        <file>Components/MenuIconItem.qml</file>
+        <file>Components/PaneBorder.qml</file>
+        <file>Components/ParseMsg.js</file>
+        <file>Components/PopDialog.qml</file>
+        <file>Components/PrintButton.qml</file>
+        <file>Components/PrintProgress.qml</file>
+        <file>Components/ProbeMatrix.qml</file>
+        <file>Components/qmldir</file>
+        <file>Components/RateControl.qml</file>
+        <file>Components/StepBox.qml</file>
+        <file>Components/PushCombo.qml</file>
+        <file>Components/SystemAction.qml</file>
+    </qresource>
+</RCC>

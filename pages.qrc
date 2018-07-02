@@ -1,0 +1,14 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Pages/BedMatrix.qml</file>
+        <file>Pages/Configs.qml</file>
+        <file>Pages/Console.qml</file>
+        <file>Pages/Files.qml</file>
+        <file>Pages/FilesSD.qml</file>
+        <file>Pages/Jog.qml</file>
+        <file>Pages/MainPage.qml</file>
+        <file>Pages/Print.qml</file>
+        <file>Pages/TempCharts.qml</file>
+        <file>Pages/WebService.qml</file>
+    </qresource>
+</RCC>

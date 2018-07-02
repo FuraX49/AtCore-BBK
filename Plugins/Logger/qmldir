@@ -1,0 +1,3 @@
+module AtCore.Logger
+classname LogModel
+

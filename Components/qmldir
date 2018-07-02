@@ -1,0 +1,17 @@
+BusyAnimation 1.0 BusyAnimation.qml
+ExtruderControl 1.0 ExtruderControl.qml
+FanControl 1.0 FanControl.qml
+HeaderButton 1.0 HeaderButton.qml
+HeaterControl 1.0 HeaterControl.qml
+JogButton 1.0 JogButton.qml
+MenuIconItem 1.0 MenuIconItem.qml
+PaneBorder 1.0 PaneBorder.qml
+PopDialog 1.0 PopDialog.qml
+PrintButton 1.0 PrintButton.qml
+PrintProgress 1.0 PrintProgress.qml
+PushCombo 1.0 PushCombo.qml
+RateControl 1.0 RateControl.qml
+StepBox 1.0 StepBox.qml
+
+ParseMsg  ParseMsg.js
+JobState  JobState.js
