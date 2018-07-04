@@ -412,61 +412,97 @@ Page  {
         }
 
         MenuSeparator { }
-        //************* Action System
-        Menu {
-            id : systemctlMenu
-            cascade : true
-            overlap : 100
-            title : qsTr("SytemCtl")
 
-            font.pointSize: fontSize14
 
-            SystemAction {
-                text: "restart REDEEM"
-                parameters : ["restart redeem"]
-                onTriggered: process.start(program,parameters)
+        MenuIconItem {
+            text: qsTr("SytemCtl")
+            icon { source: "qrc:/Images/menu/system.svg"}
+            onTriggered: {
+                systemctlMenu.open();
             }
-            MenuSeparator { }
+        }
+    }
 
-            SystemAction {
-                text: "restart ATCORE-BBK"
-                parameters : ["restart atcore"]
-                onTriggered: process.start(program,parameters)
-            }
-            MenuSeparator { }
+    //************* Action System
+    Menu {
+        id : systemctlMenu
+        cascade : false
+        overlap : 0
+        parent: Overlay.overlay
+        x: Math.round((parent.width - width) / 2)
+        y: Math.round((parent.height - height) / 2)
+        font.pointSize: fontSize24
+        implicitWidth : fontSize24 * 17
+        title : qsTr("SytemCtl")
 
-            SystemAction {
-                text: "stop MJPG"
-                parameters : ["stop mjpg"]
-                onTriggered: process.start(program,parameters)
+        MenuIconItem {
+            font.pointSize: fontSize24
+            text: qsTr("restart REDEEM")
+            icon { source: "qrc:/Images/menu/redeem.svg"}
+            onTriggered: {
+                systemctlMenu.close();
+                process.start("/bin/systemctl","restart redeem");
             }
-
-            SystemAction {
-                text: "start MJPG"
-                parameters : ["start mjpg"]
-                onTriggered: process.start(program,parameters)
-            }
-            MenuSeparator { }
-
-            SystemAction {
-                id: actionReboot
-                text: "REBOOT"
-                program : "/sbin/reboot"
-                parameters : []
-                onTriggered: process.start(program,parameters)
-            }
-            MenuSeparator { }
-            SystemAction {
-                id: actionPowerOff
-                text: "POWEROFF"
-                program : "/sbin/poweroff"
-                parameters : []
-                onTriggered: process.start(program,parameters)
-                icon.source : "qrc:/Images/menu/system.svg"            }
         }
 
+        MenuSeparator { }
+        MenuIconItem {
+            font.pointSize: fontSize24
+            text: "restart ATCORE-BBK"
+            icon { source: "qrc:/Images/menu/atcore.svg"}
+            onTriggered: {
+                systemctlMenu.close();
+                process.start("/bin/systemctl","restart atcore");
+            }
+        }
 
+        MenuSeparator { }
+        MenuIconItem {
+            font.pointSize: fontSize24
+            text: "stop MJPG"
+            icon { source: "qrc:/Images/menu/mjpg_stop.svg"}
+            onTriggered: {
+                systemctlMenu.close();
+                process.start("/bin/systemctl","stop MJPG");
+            }
+        }
+
+        MenuIconItem {
+            font.pointSize: fontSize24
+            text: "start MJPG"
+            icon { source: "qrc:/Images/menu/mjpg_start.svg"}
+            onTriggered: {
+                systemctlMenu.close();
+                process.start("/bin/systemctl","start MJPG");
+            }
+        }
+
+        MenuSeparator { }
+        MenuIconItem {
+            id: actionReboot
+            font.pointSize: fontSize24
+            text: "REBOOT"
+            icon { source: "qrc:/Images/menu/reboot.svg"}
+            onTriggered: {
+                systemctlMenu.close();
+                process.start("/sbin/reboot","");
+            }
+        }
+
+        MenuSeparator { }
+        MenuIconItem {
+            id: actionPowerOff
+            font.pointSize: fontSize24
+            text: "POWEROFF"
+            icon.source : "qrc:/Images/menu/poweroff.svg"
+            onTriggered: {
+                systemctlMenu.close();
+                process.start("/sbin/poweroff","");
+            }
+        }
     }
+
+
 
 
     // ********  header ToolBar **********************
@@ -721,7 +757,7 @@ Page  {
 
 
     // ********** Error Screen **********
-     PopDialog {
+    PopDialog {
         id: popdialog
         parent: mainpage
 
@@ -791,7 +827,7 @@ Page  {
         running : false
         triggeredOnStart : false
         onTriggered: {
-                mainpage.init();
+            mainpage.init();
         }
     }
 

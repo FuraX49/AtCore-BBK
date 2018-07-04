@@ -25,5 +25,11 @@
         <file>Images/menu/print.svg</file>
         <file>Images/menu/settings.svg</file>
         <file>Images/menu/system.svg</file>
+        <file>Images/menu/poweroff.svg</file>
+        <file>Images/menu/reboot.svg</file>
+        <file>Images/menu/redeem.svg</file>
+        <file>Images/menu/mjpg_stop.svg</file>
+        <file>Images/menu/mjpg_start.svg</file>
+        <file>Images/menu/atcore.svg</file>
     </qresource>
 </RCC>
