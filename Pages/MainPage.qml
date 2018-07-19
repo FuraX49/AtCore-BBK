@@ -718,49 +718,11 @@ Page  {
     }
 
 
-    // ***************** 3D Viewer *************************
-    // Create 3DViewer in dynamic & "modal"
-    // because CPU usage ...
-
-
-
-    property var obj3d : undefined
-
-    Loader {
-        id : loader3D
-        active : true
-        asynchronous: true
-
-        onStatusChanged: {
-            if (loader3D.status === Loader.Ready) {
-                obj3d=loader3D.item;
-                busy.anim(false);
-            }
-        }
-    }
-    function show3D(page3D) {
-        busy.anim(true);
-        loader3D.setSource(page3D, {"x": 0, "y": 0, "height": mainpage.width,"height":mainpage.height, "bedwidth" : cfg_BedWidth , "beddepht" : cfg_BedDepth} ) ;
-        headtoolbar.visible=false;
-    }
-
-    function destroy3D() {
-        if (obj3d) {
-            obj3d.enabled=false;
-            obj3d.visible=false;
-        }
-        obj3d= undefined
-        headtoolbar.visible=true;
-    }
-
-
-
-
     // ********** Error Screen **********
     PopDialog {
         id: popdialog
-        parent: mainpage
-
+        parent: mainpage.contentItem
+        visible: false
     }
 
 
@@ -775,6 +737,8 @@ Page  {
 
     function init(){
         busy.anim(true);
+        jog.init(); // TODO Gcode MACROs
+
         configs.init();
         if (cfg_PortSpeed==="undefined" ) {
             cfg_PortSpeed="115200";

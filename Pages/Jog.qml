@@ -380,20 +380,8 @@ Page {
                 }
             }
         }
-        /*
-        PrintButton {
-            id : tbUnDock
-            text : "UnDock"
-            font.pixelSize: fontSize16
-            font.weight: Font.ExtraBold
-            Layout.fillHeight: true
-            Layout.fillWidth: true
-            onClicked: {
-                atcore.pushCommand("G32");
-                terminal.appmsg("G32");
-            }
-        }
-*/
+
+
 
         PushCombo {
             id: cb_CmdMacros
@@ -418,14 +406,29 @@ Page {
             Layout.fillHeight: true
             Layout.fillWidth: true
             onClicked: {
-                mainpage.show3D("qrc:/Pages/BedMatrix.qml");
+                // mainpage.show3D("qrc:/Pages/BedMatrix.qml");
+                bedmatrix.open();
             }
         }
 
-
+    }
+    BedMatrix {
+        id : bedmatrix
     }
 
+/*
 
+    Button{
+        onClicked: {
+            var datamodel = []
+            for (var i = 0; i < cb_CmdMacros.macros.count; ++i)  {
+                datamodel.push(cb_CmdMacros.macros.get(i));
+                console.log( "I :" +i +" M :" + cb_CmdMacros.macros.get(i))
+            }
+            console.log(datamodel);
+            cfg_Macros = JSON.stringify(datamodel);
+        }
+    }
 
     function test(){
         PM.strmsg = "Homing done at";
@@ -439,20 +442,19 @@ Page {
         PM.strmsg = "Current bed compensation matrix";
         PM.getMatrixDispo();
     }
+*/
 
     function init(){
-        /*
-        try {
-            cb_CmdMacros.macros.clear();
-            var datamodel = JSON.parse(cfg_Macros)
-            for (var i = 0; i < datamodel.length; ++i) cb_CmdMacros.macros.append(datamodel[i]);
+        if (cfg_Macros.length>0) {
+            try {
+                cb_CmdMacros.macros.clear();
+                var datamodel = JSON.parse(cfg_Macros);
+                for (var i = 0; i < datamodel.length; ++i) cb_CmdMacros.macros.append(datamodel[i]);
+            }
+            catch (E) {
+                console.log("Error when append jog macros")
+            }
         }
-        catch (E) {
-            console.log("Error when appen jog macros")
-        }
-        finally {
-
-        }*/
     }
 
 
