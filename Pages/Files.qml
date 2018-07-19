@@ -62,7 +62,7 @@ Page {
         Rectangle {
             width: fileview.width
             height:  fontSize12 *2
-            color: palette.alternateBase;
+            color: palette.button;
             radius: 5
             enabled: fileview.currentIndex>-1 ? true:false
             y: fileview.currentIndex>-1 ?fileview.currentItem.y : 0
