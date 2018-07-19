@@ -54,6 +54,9 @@ Page  {
     property string  cfg_PathModels :  "file:///usr/share/models"
     property bool cfg_SdCard: false
     property string cfg_Macros : ""
+    property bool cfg_invertX: false
+    property bool cfg_invertY: false
+    property bool cfg_invertZ: false
 
     // Extruder
     property int  cfg_ExtCount :  1
@@ -92,6 +95,9 @@ Page  {
         property alias pathmodels: mainpage.cfg_PathModels
         property alias sdcard: mainpage.cfg_SdCard
         property alias macros: mainpage.cfg_Macros
+        property alias invertX: mainpage.cfg_invertX
+        property alias invertY: mainpage.cfg_invertY
+        property alias invertZ: mainpage.cfg_invertZ
     }
 
     Settings {
@@ -718,7 +724,8 @@ Page  {
     }
 
 
-    // ********** Error Screen **********
+    // ********** Popup Error  **********
+    // warning qml need ApplicationWindows (QTBUG-49921)
     PopDialog {
         id: popdialog
         parent: mainpage.contentItem

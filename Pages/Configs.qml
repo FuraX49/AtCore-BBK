@@ -15,7 +15,7 @@ Page {
 
     GridLayout {
         id: gridh
-        height: parent.height * 0.33
+        height: parent.height * 0.375
         anchors.right: parent.right
         anchors.left: parent.left
         anchors.top: parent.top
@@ -35,6 +35,7 @@ Page {
             horizontalAlignment: Text.AlignRight
             Layout.fillHeight:  true
             Layout.columnSpan: 1
+            Layout.row: 0
 
         }
         ComboBox {
@@ -50,13 +51,13 @@ Page {
             ToolTip.timeout: 5000
             ToolTip.text: "Choose serial device in /dev like ttyACM0"
             ToolTip.visible: hovered
-            Layout.columnSpan: 3
+            Layout.columnSpan: 2
         }
 
 
         Label {
             width: 100
-            text: qsTr("Fee Rate XY")
+            text: qsTr("Feed Rate XY")
             verticalAlignment: Text.AlignVCenter
             Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
             horizontalAlignment: Text.AlignRight
@@ -79,6 +80,16 @@ Page {
             Layout.columnSpan: 2
 
         }
+        CheckBox {
+            id: cb_invertX
+            checked: cfg_invertX
+            text: qsTr("invert axe X")
+            font.family: "Verdana"
+            Layout.fillWidth: true
+            font.bold: true
+            font.pixelSize: fontSize12
+            Layout.columnSpan: 1
+        }
 
 
         // _________________row 1
@@ -92,6 +103,7 @@ Page {
             Layout.fillWidth: true
             Layout.fillHeight:  true
             Layout.columnSpan: 1
+            Layout.row: 1
         }
 
 
@@ -107,11 +119,11 @@ Page {
             ToolTip.timeout: 5000
             ToolTip.text: "Leave blank for autodetect"
             ToolTip.visible: hovered
-            Layout.columnSpan: 3
+            Layout.columnSpan: 2
         }
 
         Label {
-            text: qsTr(" Fee Rate Z")
+            text: qsTr(" Feed Rate Z")
             verticalAlignment: Text.AlignVCenter
             Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
             horizontalAlignment: Text.AlignRight
@@ -135,6 +147,17 @@ Page {
             Layout.columnSpan: 2
         }
 
+        CheckBox {
+            id: cb_invertY
+            checked: cfg_invertY
+            Layout.fillWidth: true
+            font.bold: true
+            font.pixelSize: fontSize12
+            text: qsTr("invert axe Y")
+            Layout.columnSpan: 1
+        }
+
+
         // ________________________row 2
         Label {
             text: qsTr("     Speed :")
@@ -146,6 +169,7 @@ Page {
             Layout.fillWidth: true
             Layout.fillHeight:  true
             Layout.columnSpan: 1
+            Layout.row: 2
         }
 
         ComboBox {
@@ -160,7 +184,7 @@ Page {
             ToolTip.timeout: 5000
             ToolTip.text: "Choose serial speed"
             ToolTip.visible: hovered
-            Layout.columnSpan: 3
+            Layout.columnSpan: 2
         }
         Label {
             text: qsTr(" Fee Rate E")
@@ -186,6 +210,16 @@ Page {
             stepSize: 10
             Layout.columnSpan: 2
         }
+
+        CheckBox {
+            id: cb_invertZ
+            checked: cfg_invertZ
+            Layout.fillWidth: true
+            font.bold: true
+            font.pixelSize: fontSize12
+            text: qsTr("Invert axe Z")
+            Layout.columnSpan: 1
+        }
     }
 
     GridLayout {
@@ -194,7 +228,7 @@ Page {
         anchors.bottom: parent.bottom
         anchors.right: parent.right
         anchors.left: parent.left
-        rows: 6
+        rows: 5
         columns: 7
         anchors.margins:  fontSize12 *2
 
@@ -344,6 +378,10 @@ Page {
             from: 0
             to: cfg_MaxExtTemp
             value: cfg_ExtProt
+            ToolTip.delay: 1000
+            ToolTip.timeout: 5000
+            ToolTip.text: "Disable extrusion if T° lower"
+            ToolTip.visible: hovered
             Layout.columnSpan: 2
         }
 
@@ -383,11 +421,6 @@ Page {
         }
 
         // _______________________row 6
-
-
-
-
-
 
 
         Button {
@@ -435,7 +468,10 @@ Page {
                 cfg_FeedRateXY = sb_FeedRateXY.value;
                 cfg_FeedRateZ = sb_FeedRateZ.value;
                 cfg_FeedRateE = sb_FeedRateE.value;
-                if (atcore.state>1) {
+                cfg_invertX=cb_invertX.checked;
+                cfg_invertY=cb_invertY.checked;
+                cfg_invertZ=cb_invertZ.checked;
+                if (atcore.state>atcore.DISCONNECTED) {
                     atcore.closeConnection();
                 }else{
                     mainpage.init();
@@ -445,6 +481,8 @@ Page {
         }
 
     }
+
+
 
 
 

@@ -166,7 +166,11 @@ Page {
             Layout.fillHeight: true
             Layout.fillWidth: true
             onClicked: {
-                jogCmd("G1 Y+"+ step.jogsize + frXY );
+                if (!cfg_invertY) {
+                    jogCmd("G1 Y+"+ step.jogsize + frXY );
+                } else {
+                    jogCmd("G1 Y-"+ step.jogsize + frXY );
+                }
             }
         }
 
@@ -182,7 +186,11 @@ Page {
             Layout.fillHeight: true
             Layout.fillWidth: true
             onClicked: {
-                jogCmd("G1 Z+"+ step.jogsize + frZ);
+                if (!cfg_invertZ) {
+                    jogCmd("G1 Z+"+ step.jogsize + frZ);
+                } else {
+                    jogCmd("G1 Z-"+ step.jogsize + frZ);
+                }
             }
         }
 
@@ -199,7 +207,11 @@ Page {
             Layout.fillHeight: true
             Layout.fillWidth: true
             onClicked: {
-                jogCmd("G1 X-"+ step.jogsize+ frXY);
+                if (!cfg_invertX) {
+                    jogCmd("G1 X-"+ step.jogsize+ frXY);
+                } else {
+                    jogCmd("G1 X+"+ step.jogsize+ frXY);
+                }
             }
         }
 
@@ -215,7 +227,11 @@ Page {
             Layout.fillHeight: true
             Layout.fillWidth: true
             onClicked: {
-                jogCmd("G1 X+"+ step.jogsize + frXY );
+                if (!cfg_invertX) {
+                    jogCmd("G1 X+"+ step.jogsize + frXY );
+                } else {
+                    jogCmd("G1 X-"+ step.jogsize + frXY );
+                }
             }
         }
 
@@ -233,7 +249,11 @@ Page {
             Layout.fillHeight: true
             Layout.fillWidth: true
             onClicked: {
-                jogCmd("G1 Y-"+ step.jogsize +frXY);
+                if (!cfg_invertY) {
+                    jogCmd("G1 Y-"+ step.jogsize +frXY);
+                } else {
+                    jogCmd("G1 Y+"+ step.jogsize +frXY);
+                }
             }
         }
 
@@ -252,7 +272,11 @@ Page {
             Layout.fillHeight: true
             Layout.fillWidth: true
             onClicked: {
-                jogCmd("G1 Z-"+step.jogsize + frZ);
+                if (!cfg_invertZ) {
+                    jogCmd("G1 Z-"+step.jogsize + frZ);
+                } else {
+                    jogCmd("G1 Z+"+step.jogsize + frZ);
+                }
             }
         }
 
@@ -406,7 +430,6 @@ Page {
             Layout.fillHeight: true
             Layout.fillWidth: true
             onClicked: {
-                // mainpage.show3D("qrc:/Pages/BedMatrix.qml");
                 bedmatrix.open();
             }
         }
@@ -416,7 +439,7 @@ Page {
         id : bedmatrix
     }
 
-/*
+    /*
 
     Button{
         onClicked: {
