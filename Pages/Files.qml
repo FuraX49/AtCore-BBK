@@ -5,6 +5,7 @@ import QtQuick.Layouts 1.11
 import Qt.labs.folderlistmodel 2.11
 
 import "../Components"
+import "../Plugins/QuickGCode"
 
 Page {
     id: files
@@ -62,7 +63,7 @@ Page {
         Rectangle {
             width: fileview.width
             height:  fontSize12 *2
-            color: palette.button;
+            color: palette.highlight;
             radius: 5
             enabled: fileview.currentIndex>-1 ? true:false
             y: fileview.currentIndex>-1 ?fileview.currentItem.y : 0
@@ -166,6 +167,7 @@ Page {
         showDirsFirst: true
         folder:  cfg_PathModels
         rootFolder: cfg_PathModels
+
         nameFilters: ["*.gcode", "*.gco","*.stl"]
         onFolderChanged: {
             updateLabelPath();
@@ -192,6 +194,7 @@ Page {
         model: folderModel
         delegate: filesDelegate
         currentIndex : -1
+        Item {x:0; y:0 }
 
     }
     Label {
@@ -238,6 +241,16 @@ Page {
                         fileChoosed(false,"",0,0,0);
                     }
                 }
+                onDoubleClicked: {
+                    updateLabelPath();
+                    if (  nameoffile !== "") {
+                        fileChoosed(true,lbPath.text+"/"+nameoffile,originoffile, sizeoffile ,dateoffile);
+                        stackLayout.currentIndex=0;
+                    } else {
+                        fileChoosed(false,"",0,0,0);
+                    }
+
+                }
             }
 
 
@@ -270,6 +283,7 @@ Page {
                 font.pixelSize: fontSize12
                 onClicked: {
                     // TOTO shell mount
+                    fileview.currentIndex=-1;
                     folderModel.folder= "file:///media/usbmem";
                     folderModel.rootFolder= "file:///media/usbmem";
                     originoffile="usb";
@@ -287,6 +301,7 @@ Page {
                 checkable: true
                 onClicked: {
                     // TOTO shell mount
+                    fileview.currentIndex=-1;
                     folderModel.folder= "file:///media/sdcard";
                     folderModel.rootFolder= "file:///media/sdcard";
                     originoffile="sdcard";
@@ -296,17 +311,18 @@ Page {
 
             HeaderButton {
                 id: tb3DView
-                enabled: false
-                //enabled: (atcore.state<atcore.BUSY)?false:true
+                //enabled: false
+                enabled: (atcore.state<atcore.BUSY)?false:true
                 icon {
-                    source : "qrc:/Images/files/3DViewer.svg"
+                    source : "qrc:/Images/files/2DViewer.svg"
                 }
-                text: qsTr("3DView")
+                text: qsTr("2D View")
                 font.pixelSize: fontSize12
                 autoExclusive: false
                 checkable: false
                 onClicked: {
-                    create3DViewer(lbPath.text+"/"+nameoffile);
+                    gcodeviewer.open();
+                    gcodeviewer.quickgcode.source=lbPath.text+"/"+nameoffile;
                 }
             }
 
@@ -315,9 +331,20 @@ Page {
     }
 
 
+    GCodeViewer {
+        id : gcodeviewer
+        width : mainpage.width
+        height: mainpage.height
+    }
+
+
+
     function init(){
+        fileview.currentIndex=-1;
+        folderModel.folder= cfg_PathModels;
+        folderModel.rootFolder= cfg_PathModels;
         originoffile="local";
-        files.updateLabelPath();
+        updateLabelPath();
     }
 
 }

@@ -14,8 +14,8 @@ Popup {
     height: mainpage.height
     parent: mainpage
 
-    property real  bedwidth : 280.0
-    property real  beddepht : 180.0
+    property real  bedwidth : cfg_BedWidth
+    property real  beddepht : cfg_BedDepth
     property real  minprob  : -1.0
     property real  maxprob  : 1.0
 
@@ -123,12 +123,17 @@ Popup {
                 selectionMode: AbstractGraph3D.ElementSeries
                 shadowQuality: AbstractGraph3D.ShadowQualityNone //ShadowQualitySoftLow
 
+
+
                 scene.activeCamera.cameraPreset: Camera3D.CameraPresetIsometricLeftHigh
 
                 theme: Theme3D {
                     type: Theme3D.ThemeRetro  // ThemeIsabelle //ThemeEbony //ThemeRetro // ThemeStoneMoss // ThemeDigia
+                    backgroundColor:  viewMatrix.palette.window
+                    windowColor :viewMatrix.palette.window
                     font.pointSize: fontSize20
                 }
+
                 axisX: xAxis
                 axisY: yAxis
                 axisZ: zAxis
@@ -139,6 +144,7 @@ Popup {
                     drawMode: Surface3DSeries.DrawSurfaceAndWireframe // DrawSurface
                     baseGradient: surfaceGradient
                     colorStyle: Theme3D.ColorStyleObjectGradient // ColorStyleRangeGradient
+                    flatShadingEnabled : false
                     itemLabelFormat: " Offset : @yLabel (at @xLabel, @zLabel)"
                     ItemModelSurfaceDataProxy {
                         itemModel: matrixData
@@ -167,6 +173,8 @@ Popup {
                 theme: Theme3D {
                     type: Theme3D.ThemeRetro
                     font.pointSize: fontSize20
+                    backgroundColor:  viewMatrix.palette.window
+                    windowColor :viewMatrix.palette.window
                 }
                 axisX: xAxis
                 axisY: yAxis

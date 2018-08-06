@@ -8,6 +8,8 @@ Dialog {
     y : Math.floor((parent.height/2) - (height/2))
     modal: true
     margins: 10
+    parent : Overlay.overlay
+
 
 
     function show(titre,message) {

@@ -12,6 +12,8 @@ PrintProgress 1.0 PrintProgress.qml
 PushCombo 1.0 PushCombo.qml
 RateControl 1.0 RateControl.qml
 StepBox 1.0 StepBox.qml
+SystemIconItem 1.0 SystemIconItem.qml
+
 
 ParseMsg  ParseMsg.js
 JobState  JobState.js

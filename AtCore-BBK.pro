@@ -1,7 +1,7 @@
-QT+=core qml svg quick quickcontrols2 widgets  serialport qmltest  network charts datavisualization
+QT+=core gui qml svg quick quickcontrols2  serialport qmltest  network charts datavisualization
 CONFIG += c++11
 CONFIG += qtquickcompiler
-#CONFIG += disable-desktop
+CONFIG += plugin
 
 QTPLUGIN += qtvirtualkeyboardplugin
 
@@ -21,7 +21,8 @@ SOURCES += \
     Plugins/GraphTemp/graphtemp.cpp \
     Plugins/Logger/logger.cpp \
     Plugins/WebQml/ql-server.cpp \
-    Plugins/WebQml/ql-files.cpp
+    Plugins/WebQml/ql-files.cpp \
+    Plugins/QuickGCode/quickgcode.cpp
 
 
 HEADERS += \
@@ -29,7 +30,8 @@ HEADERS += \
     Plugins/Logger/logger.h \
     Plugins/WebQml/ql-server.hpp \
     Plugins/WebQml/ql-files.hpp \
-    Plugins/Process/process.h
+    Plugins/Process/process.h \
+    Plugins/QuickGCode/quickgcode.h
 
 
 RESOURCES += \
@@ -81,6 +83,8 @@ unix:!android: target.path = /opt/atcore-bbk
 # Web static file
 DISTFILES += \
     static/atcore.html
+
+
 webfile.files = static/atcore.html
 webfile.path = /opt/atcore-bbk/static
 DEPLOYMENT +=  webfile

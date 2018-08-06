@@ -7,6 +7,7 @@ BusyIndicator {
     enabled: false
     running: false
     visible: false
+
     anchors.horizontalCenter: parent.horizontalCenter
     anchors.verticalCenter: parent.verticalCenter
     width: Math.floor(parent.width /2)

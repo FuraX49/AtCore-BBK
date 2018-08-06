@@ -1,8 +1,20 @@
 <RCC>
     <qresource prefix="/">
-        <file>Plugins/GCodeViewer/SceneRoot.qml</file>
-        <file>Plugins/GCodeViewer/SimpleMaterial.qml</file>
-        <file>Plugins/GCodeViewer/Viewer3D.qml</file>
         <file>Plugins/WebQml/QlServer.qml</file>
+        <file>Plugins/QuickGCode/GCodeViewer.qml</file>
+        <file>Plugins/QuickGCode/quickgcode.cpp</file>
+        <file>Plugins/QuickGCode/quickgcode.h</file>
+        <file>Plugins/GraphTemp/graphtemp.cpp</file>
+        <file>Plugins/GraphTemp/graphtemp.h</file>
+        <file>Plugins/GraphTemp/qmldir</file>
+        <file>Plugins/Logger/logger.cpp</file>
+        <file>Plugins/Logger/logger.h</file>
+        <file>Plugins/Logger/qmldir</file>
+        <file>Plugins/Process/process.h</file>
+        <file>Plugins/WebQml/ql-files.cpp</file>
+        <file>Plugins/WebQml/ql-files.hpp</file>
+        <file>Plugins/WebQml/ql-server.cpp</file>
+        <file>Plugins/WebQml/ql-server.hpp</file>
+        <file>Plugins/WebQml/qmldir</file>
     </qresource>
 </RCC>

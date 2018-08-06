@@ -41,7 +41,8 @@ PaneBorder {
         anchors.top: parent.top
         model:  ListModel {
             id : lmMacros
-            ListElement { text: "G28" }
+            ListElement { text: "G29" }
+            ListElement { text: "G30 P2 S" }
         }
     }
 

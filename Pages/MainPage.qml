@@ -73,7 +73,11 @@ Page  {
     property bool  cfg_HeatBed :false
     property int cfg_BedWidth : 200
     property int cfg_BedDepth : 200
-    // property int cfg_BedHeight : 100
+    property bool  cfg_SquareBed :true
+    property string cfg_extcolor: "red"
+    property string cfg_pathcolor: "black"
+    property double  cfg_nozzlesize : 0.4
+
 
     // Web
     property bool cfg_WebActive: false
@@ -132,13 +136,16 @@ Page  {
         category : "Bed"
         property alias heatbed: mainpage.cfg_HeatBed
         property alias width : mainpage.cfg_BedWidth
-        //        property alias height: mainpage.cfg_BedHeight
         property alias depth : mainpage.cfg_BedDepth
+        property alias extcolor: mainpage.cfg_extcolor
+        property alias pathcolor: mainpage.cfg_pathcolor
+        property alias nozzlesize: mainpage.cfg_nozzlesize
     }
 
     Process {
         id: process
         onReadyRead: console.log(readAll());
+
     }
 
 
@@ -432,78 +439,73 @@ Page  {
     //************* Action System
     Menu {
         id : systemctlMenu
+        title : qsTr("SytemCtl")
         cascade : false
-        overlap : 0
         parent: Overlay.overlay
+        implicitWidth : fontSize16 * 24
         x: Math.round((parent.width - width) / 2)
         y: Math.round((parent.height - height) / 2)
-        font.pointSize: fontSize24
-        implicitWidth : fontSize24 * 17
-        title : qsTr("SytemCtl")
+        font.pointSize: fontSize16
 
-        MenuIconItem {
-            font.pointSize: fontSize24
+
+        SystemIconItem {
+            id : restartRedeem
             text: qsTr("restart REDEEM")
             icon { source: "qrc:/Images/menu/redeem.svg"}
             onTriggered: {
                 systemctlMenu.close();
-                process.start("/bin/systemctl","restart redeem");
+                process.start("/bin/systemctl",["restart","redeem"]);
             }
         }
 
         MenuSeparator { }
-        MenuIconItem {
-            font.pointSize: fontSize24
-            text: "restart ATCORE-BBK"
+        SystemIconItem {
+            text: "restart ATCORE"
             icon { source: "qrc:/Images/menu/atcore.svg"}
             onTriggered: {
                 systemctlMenu.close();
-                process.start("/bin/systemctl","restart atcore");
+                process.start("/bin/systemctl",["restart","atcore"]);
             }
         }
 
         MenuSeparator { }
-        MenuIconItem {
-            font.pointSize: fontSize24
+        SystemIconItem {
             text: "stop MJPG"
             icon { source: "qrc:/Images/menu/mjpg_stop.svg"}
             onTriggered: {
                 systemctlMenu.close();
-                process.start("/bin/systemctl","stop MJPG");
+                process.start("/bin/systemctl",["stop","mjpg"]);
             }
         }
 
-        MenuIconItem {
-            font.pointSize: fontSize24
+        SystemIconItem {
             text: "start MJPG"
             icon { source: "qrc:/Images/menu/mjpg_start.svg"}
             onTriggered: {
                 systemctlMenu.close();
-                process.start("/bin/systemctl","start MJPG");
+                process.start("/bin/systemctl",["restart","mjpg"]);
             }
         }
 
         MenuSeparator { }
-        MenuIconItem {
+        SystemIconItem {
             id: actionReboot
-            font.pointSize: fontSize24
             text: "REBOOT"
             icon { source: "qrc:/Images/menu/reboot.svg"}
             onTriggered: {
                 systemctlMenu.close();
-                process.start("/sbin/reboot","");
+                process.start("sudo /sbin/reboot","");
             }
         }
 
         MenuSeparator { }
-        MenuIconItem {
+        SystemIconItem {
             id: actionPowerOff
-            font.pointSize: fontSize24
             text: "POWEROFF"
             icon.source : "qrc:/Images/menu/poweroff.svg"
             onTriggered: {
                 systemctlMenu.close();
-                process.start("/sbin/poweroff","");
+                process.start("sudo /sbin/poweroff","");
             }
         }
     }
@@ -729,6 +731,7 @@ Page  {
     PopDialog {
         id: popdialog
         parent: mainpage.contentItem
+        //parent : mainpage.overlay
         visible: false
     }
 
@@ -737,6 +740,7 @@ Page  {
     // Must be the last too stay visible...
     BusyAnimation {
         id : busy
+        parent : mainpage
     }
 
 
@@ -746,10 +750,17 @@ Page  {
         busy.anim(true);
         jog.init(); // TODO Gcode MACROs
 
+        if (cfg_SdCard) {
+            filessd.init();
+        } else {
+            files.init();
+        }
+
         configs.init();
         if (cfg_PortSpeed==="undefined" ) {
             cfg_PortSpeed="115200";
         }
+
         console.log("init Serial " +  cfg_Device + " at speed " +  cfg_PortSpeed);
         if (atcore.initSerial(cfg_Device,cfg_PortSpeed.valueOf()) && cfg_Device!="undefined") {
             try {
@@ -768,11 +779,7 @@ Page  {
                     printpage.init();
                     terminal.init();
                     tempchart.init();
-                    if (cfg_SdCard) {
-                        filessd.init();
-                    } else {
-                        files.init();
-                    }
+
                     jog.init(); // TODO Gcode MACROs
                     atcore.pushCommand("M114");
                     atcore.pushCommand("M119");

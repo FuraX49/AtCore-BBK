@@ -1,10 +1,8 @@
 #include <QGuiApplication>
-//#include <QtQuick/QQuickView>
+#include <QtQuick/QQuickView>
 #include <QQmlApplicationEngine>
-#include <QOpenGLContext>
 #include <QQmlContext>
 #include <QQmlEngine>
-
 
 #include <AtCore/AtCore>
 #include "Plugins/GraphTemp/graphtemp.h"
@@ -14,35 +12,7 @@
 #include "Plugins/WebQml/ql-server.hpp"
 #include "Plugins/Process/process.h"
 
-//#include "plugins/gcodemesh.h"
-
-
-void setSurfaceFormat()
-{
-    QSurfaceFormat format;
-#ifdef QT_OPENGL_ES_2
-    QCoreApplication::setAttribute(Qt::AA_UseOpenGLES, true);
-    format.setRenderableType(QSurfaceFormat::OpenGLES);
-    format.setVersion(2, 0);
-    format.setRedBufferSize(5);
-    format.setGreenBufferSize(6);
-    format.setBlueBufferSize(5);
-    format.setAlphaBufferSize(0);
-    format.setDepthBufferSize(0);
-#else
-    if (QOpenGLContext::openGLModuleType() == QOpenGLContext::LibGL) {
-        format.setVersion(4, 3);
-        format.setProfile(QSurfaceFormat::CoreProfile);
-        format.setDepthBufferSize(24);
-        format.setSamples(4);
-        format.setStencilBufferSize(8);
-    }
-#endif
-
-    QSurfaceFormat::setDefaultFormat(format);
-}
-
-
+#include "Plugins/QuickGCode/quickgcode.h"
 
 
 
@@ -52,22 +22,24 @@ int main(int argc, char *argv[])
     qputenv("QT_IM_MODULE", QByteArray("qtvirtualkeyboard"));
     qputenv("QT_QUICK_CONTROLS_CONF", QByteArray("/etc/thing-printer/qtquickcontrols2.conf"));
 
-
     QApplication app(argc, argv);
-    app.setAttribute(Qt::AA_DisableHighDpiScaling);
+    QString extraImportPath(QStringLiteral("%1/../../../%2"));
+
+    app.setAttribute(Qt::AA_DisableHighDpiScaling,true);
     app.setAttribute(Qt::AA_UseHighDpiPixmaps, false);
+    app.setAttribute(Qt::AA_UseOpenGLES,true);
+    app.setAttribute(Qt::AA_ShareOpenGLContexts, true);
+
     app.setOrganizationDomain("thing-printer.com");
     app.setOrganizationName("thing-printer");
     app.setApplicationName("atcore-bbk");
-    app.setApplicationVersion("0.8.4");
-
+    app.setApplicationVersion("0.8.6");
 
     qmlRegisterType<AtCore>("org.kde.atcore", 1, 0, "AtCore");
     qmlRegisterType<QlFiles>("QlFiles", 1,0, "QlFiles");
     qmlRegisterType<QlServer>("QlServer", 1,0, "QlServer");
+    qmlRegisterType<QuickGCode>("QuickGCode", 1, 0, "QuickGCode");
     qmlRegisterType<Process>("Process", 1, 0, "Process");
-    //  qmlRegisterType<GCodeMesh>("GCodeMesh", 1, 0, "GCodeMesh");
-
 
     QQuickView view;
     LogModel logmodel;
@@ -81,7 +53,6 @@ int main(int argc, char *argv[])
 
     if (view.status() == QQuickView::Error)
         return -1;
-
 
     view.setResizeMode(QQuickView::SizeRootObjectToView);
 #ifdef DESKTOP

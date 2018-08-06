@@ -6,6 +6,8 @@ import QtQuick.Layouts 1.11
 
 import org.kde.atcore 1.0
 import "../Components"
+import "../Plugins/QuickGCode"
+
 
 Page {
     id: filessd
@@ -51,7 +53,7 @@ Page {
         Rectangle {
             width: fileview.width
             height:  fontSize12 *2
-            color: palette.button;
+            color: palette.highlight;
             radius: 5
             y: fileview.currentIndex>-1 ?fileview.currentItem.y : 0
             Behavior on y {
@@ -249,21 +251,19 @@ Page {
 
             HeaderButton {
                 id: tb3DView
+                enabled: false
+                visible: false
+                //enabled: (atcore.state<atcore.BUSY)?false:true
                 icon {
-                    source : "qrc:/Images/files/3DViewer.svg"
+                    source : "qrc:/Images/files/2DViewer.svg"
                 }
-                text: qsTr("3DView")
+                text: qsTr("2D View")
                 font.pixelSize: fontSize12
-                enabled: (atcore.state<atcore.BUSY)?false:true
                 autoExclusive: false
                 checkable: false
                 onClicked: {
-                    if (sizeoffile<524288) {
-                        updateLabelPath();
-                        create3DViewer(lbPath.text+"/"+nameoffile);
-                    } else {
-                        popdialog.show("File too big !","Don't work on BBK.\nFile must be less to 512Ko")
-                    }
+                    gcodeviewer.open();
+                    gcodeviewer.quickgcode.source=lbPath.text+"/"+nameoffile;
                 }
             }
 
@@ -272,6 +272,11 @@ Page {
     }
 
 
+    GCodeViewer {
+        id : gcodeviewer
+        width : mainpage.width
+        height: mainpage.height
+    }
 
     function init(){
         originoffile="/lcl";

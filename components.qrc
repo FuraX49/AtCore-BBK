@@ -19,5 +19,6 @@
         <file>Components/StepBox.qml</file>
         <file>Components/PushCombo.qml</file>
         <file>Components/SystemAction.qml</file>
+        <file>Components/SystemIconItem.qml</file>
     </qresource>
 </RCC>
