@@ -3,6 +3,7 @@
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 #include <QQmlEngine>
+#include <QOpenGLContext>
 
 #include <AtCore/AtCore>
 #include "Plugins/GraphTemp/graphtemp.h"
@@ -11,7 +12,6 @@
 #include "Plugins/WebQml/ql-files.hpp"
 #include "Plugins/WebQml/ql-server.hpp"
 #include "Plugins/Process/process.h"
-
 #include "Plugins/QuickGCode/quickgcode.h"
 
 
@@ -22,18 +22,14 @@ int main(int argc, char *argv[])
     qputenv("QT_IM_MODULE", QByteArray("qtvirtualkeyboard"));
     qputenv("QT_QUICK_CONTROLS_CONF", QByteArray("/etc/thing-printer/qtquickcontrols2.conf"));
 
+
     QApplication app(argc, argv);
     QString extraImportPath(QStringLiteral("%1/../../../%2"));
-
-    app.setAttribute(Qt::AA_DisableHighDpiScaling,true);
-    app.setAttribute(Qt::AA_UseHighDpiPixmaps, false);
-    app.setAttribute(Qt::AA_UseOpenGLES,true);
-    app.setAttribute(Qt::AA_ShareOpenGLContexts, true);
 
     app.setOrganizationDomain("thing-printer.com");
     app.setOrganizationName("thing-printer");
     app.setApplicationName("atcore-bbk");
-    app.setApplicationVersion("0.8.6");
+    app.setApplicationVersion("0.87.0");
 
     qmlRegisterType<AtCore>("org.kde.atcore", 1, 0, "AtCore");
     qmlRegisterType<QlFiles>("QlFiles", 1,0, "QlFiles");

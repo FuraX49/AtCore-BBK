@@ -13,7 +13,7 @@ import "../Components/JobState.js" as JS
 import "../Plugins"
 
 import QlFiles 1.0
-import QtWebSockets 1.0
+//import QtWebSockets 1.0
 import org.kde.atcore 1.0
 import Process 1.0
 
@@ -810,6 +810,7 @@ Page  {
     }
 
     Component.onCompleted: {
+        update();
         animstart.start();
         terminal.appmsg(Qt.application.name + " version :" + Qt.application.version);
     }

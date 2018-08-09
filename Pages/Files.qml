@@ -94,6 +94,15 @@ Page {
                     font.bold: true
                     font.pixelSize: fontSize12
                     text: qsTr("Name")
+                    MouseArea {
+                        anchors.fill: parent;
+                        onClicked: {
+                            folderModel.sortField=FolderListModel.Name;
+                        }
+                        onDoubleClicked:  {
+                            folderModel.sortReversed = !folderModel.sortReversed;
+                        }
+                    }
                 }
                 Text {
                     id: date
@@ -101,6 +110,16 @@ Page {
                     font.pixelSize: fontSize12
                     width: Math.floor(parent.width * 0.25)
                     text: qsTr("Date")
+                    MouseArea {
+                        anchors.fill: parent;
+                        onClicked: {
+                            folderModel.sortField=FolderListModel.Time;
+                            folderModel.sortField
+                        }
+                        onDoubleClicked:  {
+                            folderModel.sortReversed = !folderModel.sortReversed;
+                        }
+                    }
                 }
                 Text {
                     id: size
@@ -108,6 +127,15 @@ Page {
                     font.pixelSize: fontSize12
                     width: Math.floor(parent.width * 0.15)
                     text: qsTr("Size")
+                    MouseArea {
+                        anchors.fill: parent;
+                        onClicked: {
+                            folderModel.sortField=FolderListModel.Size;
+                        }
+                        onDoubleClicked:  {
+                            folderModel.sortReversed = !folderModel.sortReversed;
+                        }
+                    }
                 }
             }
         }
@@ -126,6 +154,7 @@ Page {
                 Text {
                     id : filename
                     text: fileName
+
                     font.bold: false
                     font.pixelSize: fontSize12
                     color: palette.windowText
@@ -167,8 +196,7 @@ Page {
         showDirsFirst: true
         folder:  cfg_PathModels
         rootFolder: cfg_PathModels
-
-        nameFilters: ["*.gcode", "*.gco","*.stl"]
+        nameFilters: ["*.gcode", "*.gco"]
         onFolderChanged: {
             updateLabelPath();
         }

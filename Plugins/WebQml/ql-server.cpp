@@ -16,13 +16,13 @@ void QlServer::incomingConnection(qintptr socket){
 	connect(s, SIGNAL(disconnected()), this, SLOT(discardClient()));
 	s->setSocketDescriptor(socket);
 
-    //std::cout << "QlServer new connection...\n";
+    //qWarning() << "QlServer new connection...\n";
 }
 
 void QlServer::listenPort(quint16 port){
 	if (!isListening()){
 		listen(QHostAddress::Any, port);
-        std::cout << "QlServer listening port " << port << "...\n";
+        qWarning() << "QlServer listening on http port "  << port ;
         resume();
 	}
 }
@@ -34,14 +34,14 @@ bool QlServer::paused(){ return disabled; }
 bool QlServer::listening(){ return isListening(); }
 
 void QlServer::close(){
-	std::cout << "QlServer closing...\n";
+    qWarning() << "QlServer closing...\n";
 	QTcpServer::close();
 }
 
 void QlServer::respond(const QString &response){
 	response_.clear();
 	response_ = response;
-    //std::cout << "QlServer response set to ...\n";
+    //qWarning() << "QlServer response set to ...\n";
 }
 void QlServer::blob(const QList<QVariant> &blob){
 	blob_.clear();
@@ -69,7 +69,7 @@ void QlServer::readClient(){
 	}
 }
 void QlServer::discardClient(){
-    //std::cout << "QlServer request discarded...\n";
+    //qWarning() << "QlServer request discarded...\n";
 	QTcpSocket* socket = (QTcpSocket*)sender();
 	socket->deleteLater();
 }

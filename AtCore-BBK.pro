@@ -1,9 +1,7 @@
-QT+=core gui qml svg quick quickcontrols2  serialport qmltest  network charts datavisualization
-CONFIG += c++11
-CONFIG += qtquickcompiler
-CONFIG += plugin
+QT+=core gui qml svg quick dbus quick widgets quickcontrols2  serialport qmltest  network opengl websockets charts datavisualization
 
-QTPLUGIN += qtvirtualkeyboardplugin
+CONFIG += c++11
+
 
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which as been marked deprecated (the exact warnings
@@ -82,7 +80,8 @@ unix:!android: target.path = /opt/atcore-bbk
 
 # Web static file
 DISTFILES += \
-    static/atcore.html
+    static/atcore.html \
+    Components/ProbeMatrix_copy.qml
 
 
 webfile.files = static/atcore.html

@@ -6,13 +6,14 @@ import QtQml 2.11
 
 import "../Components/ParseMsg.js" as PM
 
-Popup {
+Page {
     id: viewMatrix
-    x : 0
-    y : 0
+    //modal: true
+    x:0
+    y:0
     width: mainpage.width
     height: mainpage.height
-    parent: mainpage
+
 
     property real  bedwidth : cfg_BedWidth
     property real  beddepht : cfg_BedDepth
@@ -66,10 +67,7 @@ Popup {
 
         Item {
             id: surfaceView
-            width: viewMatrix.width
-            height: viewMatrix.height
-            anchors.top: viewMatrix.top
-            anchors.left: viewMatrix.left
+            anchors.fill: parent
 
             ColorGradient {
                 id: surfaceGradient
@@ -256,7 +254,8 @@ Popup {
                 Layout.fillWidth: true
                 text: "Close"
                 onClicked: {
-                    bedmatrix.close();
+                    headtoolbar.visible=true;
+                    loadbedmatrix.active=false;
                 }
             }
         }

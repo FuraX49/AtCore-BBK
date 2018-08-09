@@ -42,7 +42,6 @@ Page {
     Timer {
         interval: 1000; running: false; repeat: true
         onTriggered: {
-            console.log("Timer JOG")
             if (jog.visible) {
                 atcore.pushCommand("M114");
                 atcore.pushCommand("M119");
@@ -430,40 +429,50 @@ Page {
             Layout.fillHeight: true
             Layout.fillWidth: true
             onClicked: {
-                bedmatrix.open();
+                loadbedmatrix.source="qrc:/Pages/BedMatrix.qml"
+                loadbedmatrix.active=true
+
+
+
             }
         }
 
     }
-    BedMatrix {
-        id : bedmatrix
-    }
+    Loader {
+        id : loadbedmatrix
+        active: false
+        focus: true
+        onLoaded: {
+            mainpage.header.visible=false;
+        }
 
+    }
     /*
 
     Button{
+        width: 120
+        height: 100
+        text:  "Generate\nMatrix"
+        anchors.top: rowaxes.bottom
+        anchors.left: parent.left
+        anchors.margins: 0
         onClicked: {
-            var datamodel = []
-            for (var i = 0; i < cb_CmdMacros.macros.count; ++i)  {
-                datamodel.push(cb_CmdMacros.macros.get(i));
-                console.log( "I :" +i +" M :" + cb_CmdMacros.macros.get(i))
-            }
-            console.log(datamodel);
-            cfg_Macros = JSON.stringify(datamodel);
+            test();
         }
     }
 
     function test(){
         PM.strmsg = "Homing done at";
-        PM.getHoming();
-        for (var x = 20; x < 280 ; x+=50) {
-            for (var y = 20; y < 180 ; y+=50) {
-                PM.strmsg = "Found Z probe distance -" +Math.round(1) + ".01 mm at (X, Y) = (" + x +".00, "+y+".00)";
-                PM.getProbePoint();
+        PM.testM561();
+        for (var x = 20; x < cfg_BedWidth ; x+=50) {
+            for (var y = 20; y < cfg_BedDepth  ; y+=50) {
+                PM.strmsg = "Found Z probe distance -" +Math.random().toPrecision(3).toString() +" mm at (X, Y) = (" + x +".00, "+y+".00)";
+                console.log(PM.strmsg);
+                PM.testG30();
             }
         }
         PM.strmsg = "Current bed compensation matrix";
-        PM.getMatrixDispo();
+        PM.testM561_S();
     }
 */
 

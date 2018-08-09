@@ -13,7 +13,6 @@
         <file>Components/PopDialog.qml</file>
         <file>Components/PrintButton.qml</file>
         <file>Components/PrintProgress.qml</file>
-        <file>Components/ProbeMatrix.qml</file>
         <file>Components/qmldir</file>
         <file>Components/RateControl.qml</file>
         <file>Components/StepBox.qml</file>
