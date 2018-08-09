@@ -4,7 +4,8 @@ AtCore-BBK is a touchscreen interface for [Replicape](https://replicape.github.i
 
 It was written in QT/QML  for replacing Toggle (and OctoPrint) and based on KDE [atcore](https://github.com/KDE/atcore) API.
 
- 
+![](https://github.com/FuraX49/AtCore-BBK/blob/master/docs/print.png)
+
 
 
 
