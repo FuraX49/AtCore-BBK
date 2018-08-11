@@ -505,7 +505,7 @@ Page  {
             icon.source : "qrc:/Images/menu/poweroff.svg"
             onTriggered: {
                 systemctlMenu.close();
-                process.startDetached("/bin/systemctl",["start","poweroff.target"]);
+                process.startDetached("/bin/systemctl",["start","systemd-poweroff.service"]);
             }
         }
     }
