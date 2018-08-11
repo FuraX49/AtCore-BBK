@@ -454,7 +454,7 @@ Page  {
             icon { source: "qrc:/Images/menu/redeem.svg"}
             onTriggered: {
                 systemctlMenu.close();
-                process.start("/bin/systemctl",["restart","redeem"]);
+                process.startDetached("/bin/systemctl",["restart","redeem.service"]);
             }
         }
 
@@ -464,7 +464,7 @@ Page  {
             icon { source: "qrc:/Images/menu/atcore.svg"}
             onTriggered: {
                 systemctlMenu.close();
-                process.start("/bin/systemctl",["restart","atcore"]);
+                process.startDetached("/bin/systemctl",["restart","atcore.service"]);
             }
         }
 
@@ -474,7 +474,7 @@ Page  {
             icon { source: "qrc:/Images/menu/mjpg_stop.svg"}
             onTriggered: {
                 systemctlMenu.close();
-                process.start("/bin/systemctl",["stop","mjpg"]);
+                process.startDetached("/bin/systemctl",["stop","mjpg.service"]);
             }
         }
 
@@ -483,7 +483,7 @@ Page  {
             icon { source: "qrc:/Images/menu/mjpg_start.svg"}
             onTriggered: {
                 systemctlMenu.close();
-                process.start("/bin/systemctl",["restart","mjpg"]);
+                process.startDetached("/bin/systemctl",["restart","mjpg.service"]);
             }
         }
 
@@ -494,7 +494,7 @@ Page  {
             icon { source: "qrc:/Images/menu/reboot.svg"}
             onTriggered: {
                 systemctlMenu.close();
-                process.start("sudo /sbin/reboot","");
+                process.startDetached("/bin/systemctl",["start","reboot.target"]);
             }
         }
 
@@ -505,7 +505,7 @@ Page  {
             icon.source : "qrc:/Images/menu/poweroff.svg"
             onTriggered: {
                 systemctlMenu.close();
-                process.start("sudo /sbin/poweroff","");
+                process.startDetached("/bin/systemctl",["start","poweroff.target"]);
             }
         }
     }

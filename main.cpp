@@ -29,7 +29,7 @@ int main(int argc, char *argv[])
     app.setOrganizationDomain("thing-printer.com");
     app.setOrganizationName("thing-printer");
     app.setApplicationName("atcore-bbk");
-    app.setApplicationVersion("0.87.0");
+    app.setApplicationVersion("0.87.1");
 
     qmlRegisterType<AtCore>("org.kde.atcore", 1, 0, "AtCore");
     qmlRegisterType<QlFiles>("QlFiles", 1,0, "QlFiles");
